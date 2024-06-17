@@ -7,6 +7,7 @@ import type { TGetPersonsParams } from "@/services/personService.types";
 import { PersonCard } from "@/components/PersonCard";
 import { PersonEntity } from "@/entities/person";
 import { CreatePersonForm } from "@/components/CreatePersonForm";
+import { ContactEntity } from "@/entities/contact";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -51,6 +52,30 @@ export default function Home() {
         setPeople((state) => state.filter((people) => people.id !== peopleId));
     }
 
+    function addContactIntoList(personId: string, contact: ContactEntity) {
+        setPeople((state) => {
+            const personContact = state.find((person) => person.id === personId);
+            if (!personContact) return state;
+
+            personContact.contacts.push(contact);
+
+            return state;
+        });
+    }
+
+    function removeFromContactList(personId: string, contactId: string) {
+        setPeople((state) => {
+            const personContact = state.find((person) => person.id === personId);
+            if (!personContact) return state;
+
+            personContact.contacts = personContact.contacts.filter(
+                (contact) => contact.id === contactId,
+            );
+
+            return state;
+        });
+    }
+
     useEffect(() => {
         fetchPeople({ page });
     }, [page]);
@@ -72,11 +97,11 @@ export default function Home() {
                     </div>
 
                     <div>
-                        <div className="flex max-h-[670px] flex-col gap-2 overflow-auto">
-                            <span className="font-semibold">
-                                Lista de pessoas criadas ({paginationData.totalElements})
-                            </span>
+                        <span className="font-semibold">
+                            Lista de pessoas criadas ({paginationData.totalElements})
+                        </span>
 
+                        <div className="mt-2 flex max-h-[650px] flex-col gap-2 overflow-auto">
                             {!people.length ? (
                                 <div className="flex flex-col gap-2">
                                     <div className="mx-auto w-full max-w-lg rounded-lg border px-6 py-4">
@@ -86,8 +111,11 @@ export default function Home() {
                             ) : (
                                 people.map((person) => (
                                     <PersonCard
+                                        key={person.id}
                                         person={person}
                                         removeFromPeopleList={removeFromPeopleList}
+                                        addContactIntoList={addContactIntoList}
+                                        removeFromContactList={removeFromContactList}
                                     />
                                 ))
                             )}
