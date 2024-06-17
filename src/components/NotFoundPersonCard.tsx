@@ -1,6 +1,11 @@
+import { PersonEntity } from "@/entities/person";
 import { CreatePersonForm } from "./CreatePersonForm";
 
-export function NotFoundPersonCard() {
+interface NotFoundPersonCardProps {
+    addPersonIntoList: (person: PersonEntity) => void;
+}
+
+export function NotFoundPersonCard({ addPersonIntoList }: NotFoundPersonCardProps) {
     return (
         <div className="flex flex-col gap-1 rounded-lg border px-8 py-6">
             <span>Nenhuma pessoa foi encontrada.</span>
@@ -12,7 +17,7 @@ export function NotFoundPersonCard() {
             <hr className="mt-4" />
 
             <div className="mt-4">
-                <CreatePersonForm />
+                <CreatePersonForm addPersonIntoList={addPersonIntoList} />
             </div>
         </div>
     );

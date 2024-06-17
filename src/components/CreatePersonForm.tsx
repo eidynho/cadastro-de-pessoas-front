@@ -4,13 +4,19 @@ import { AxiosError } from "axios";
 
 import { createPerson } from "@/services/personService";
 import type { TCreatePersonParams } from "@/services/personService.types";
+import { PersonEntity } from "@/entities/person";
 
 const labelClasses = "block text-sm font-medium";
 const inputClasses =
     "mt-1 w-full rounded border p-2 focus:border-blue-300 focus:outline-none focus:ring";
 
-export function CreatePersonForm() {
+interface CreatePersonFormProps {
+    addPersonIntoList: (person: PersonEntity) => void;
+}
+
+export function CreatePersonForm({ addPersonIntoList }: CreatePersonFormProps) {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submissionSuccess, setSubmissionSuccess] = useState<string | null>(null);
     const [submissionError, setSubmissionError] = useState<string | null>(null);
 
     const {
@@ -21,10 +27,13 @@ export function CreatePersonForm() {
 
     const onSubmit = async (data: TCreatePersonParams) => {
         setIsSubmitting(true);
+        setSubmissionSuccess(null);
         setSubmissionError(null);
 
         try {
-            await createPerson(data as TCreatePersonParams);
+            const createdPerson = await createPerson(data as TCreatePersonParams);
+            addPersonIntoList(createdPerson);
+            setSubmissionSuccess("Pessoa criada com sucesso.");
         } catch (error) {
             console.error(error);
 
@@ -48,7 +57,16 @@ export function CreatePersonForm() {
                 </span>
             </div>
 
-            {submissionError && <p className="mb-4 text-red-500">{submissionError}</p>}
+            {submissionSuccess && (
+                <p className="mb-4 rounded-lg border border-green-500 bg-green-500/5 px-2 py-2 text-green-500">
+                    {submissionSuccess}
+                </p>
+            )}
+            {submissionError && (
+                <p className="mb-4 rounded-lg border border-red-500 bg-red-500/5 px-2 py-2 text-red-500">
+                    {submissionError}
+                </p>
+            )}
 
             <div className="mb-4">
                 <label htmlFor="name" className={labelClasses}>

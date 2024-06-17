@@ -15,9 +15,7 @@ export const createContact = async (params: TCreateContactParams): Promise<Conta
 
 export const updateContact = async (params: TUpdateContactParams): Promise<ContactEntity> => {
     try {
-        const { data } = await api.put<ContactEntity>("/contact", {
-            params,
-        });
+        const { data } = await api.put<ContactEntity>("/contact", params);
 
         return data;
     } catch (error) {
@@ -26,7 +24,7 @@ export const updateContact = async (params: TUpdateContactParams): Promise<Conta
     }
 };
 
-export const deleteContact = async (contactId: number): Promise<void> => {
+export const deleteContact = async (contactId: string | number): Promise<void> => {
     try {
         await api.delete<void>(`/contact/${contactId}`);
     } catch (error) {

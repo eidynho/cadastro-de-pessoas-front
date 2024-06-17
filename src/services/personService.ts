@@ -1,6 +1,11 @@
 import { api } from "@/lib/api";
 import { PersonEntity } from "@/entities/person";
-import { TCreatePersonParams, TGetPersonsParams, TUpdatePersonParams } from "./personService.types";
+import {
+    TCreatePersonParams,
+    TGetPersonsOutput,
+    TGetPersonsParams,
+    TUpdatePersonParams,
+} from "./personService.types";
 
 export const getPersonById = async (personId: number): Promise<PersonEntity> => {
     try {
@@ -24,9 +29,9 @@ export const getPersonByCPF = async (personCPF: number): Promise<PersonEntity> =
     }
 };
 
-export const getPersons = async (params: TGetPersonsParams): Promise<PersonEntity[]> => {
+export const getPersons = async (params?: TGetPersonsParams): Promise<TGetPersonsOutput> => {
     try {
-        const { data } = await api.get<PersonEntity[]>("/person/all", {
+        const { data } = await api.get<TGetPersonsOutput>("/person/all", {
             params,
         });
 
@@ -50,9 +55,7 @@ export const createPerson = async (params: TCreatePersonParams): Promise<PersonE
 
 export const updatePerson = async (params: TUpdatePersonParams): Promise<PersonEntity> => {
     try {
-        const { data } = await api.put<PersonEntity>("/person", {
-            params,
-        });
+        const { data } = await api.put<PersonEntity>("/person", params);
 
         return data;
     } catch (error) {
@@ -61,9 +64,9 @@ export const updatePerson = async (params: TUpdatePersonParams): Promise<PersonE
     }
 };
 
-export const deletePerson = async (personId: number): Promise<void> => {
+export const deletePerson = async (personId: string | number): Promise<void> => {
     try {
-        await api.put<void>(`/person/${personId}`);
+        await api.delete<void>(`/person/${personId}`);
     } catch (error) {
         console.error("Error on delete person: ", error);
         throw error;

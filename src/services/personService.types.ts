@@ -6,6 +6,35 @@ export interface TGetPersonsParams {
     perPage?: number;
 }
 
+export interface TGetPersonsOutput {
+    totalElements: number;
+    totalPages: number;
+    first: boolean;
+    last: boolean;
+    size: number;
+    content: [];
+    number: number;
+    sort: {
+        empty: boolean;
+        unsorted: boolean;
+        sorted: boolean;
+    };
+    numberOfElements: number;
+    pageable: {
+        pageNumber: number;
+        pageSize: number;
+        sort: {
+            empty: boolean;
+            unsorted: boolean;
+            sorted: boolean;
+        };
+        offset: number;
+        unpaged: boolean;
+        paged: boolean;
+    };
+    empty: boolean;
+}
+
 export interface TCreatePersonParams {
     name: string;
     cpf: string;
