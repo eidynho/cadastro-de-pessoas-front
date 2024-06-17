@@ -56,9 +56,11 @@ export default function Home() {
         setPeople((state) => {
             return state.map((person) => {
                 if (person.id === personId) {
+                    const contactList = person.contacts || [];
+
                     return {
                         ...person,
-                        contacts: [...person.contacts, contact],
+                        contacts: [...contactList, contact],
                     };
                 }
                 return person;
@@ -101,9 +103,7 @@ export default function Home() {
                     </div>
 
                     <div>
-                        <span className="font-semibold">
-                            Lista de pessoas criadas ({paginationData.totalElements})
-                        </span>
+                        <span className="font-semibold">Lista de pessoas criadas</span>
 
                         <div className="mt-2 flex max-h-[650px] flex-col gap-2 overflow-auto">
                             {!people.length ? (
@@ -146,8 +146,7 @@ export default function Home() {
                                 </div>
 
                                 <div className="mt-2 text-center font-medium">
-                                    Pessoas por página: 3 / Página {page + 1} de{" "}
-                                    {paginationData.totalPages}
+                                    Pessoas por página: 3 / Página {page + 1}
                                 </div>
                             </div>
                         )}

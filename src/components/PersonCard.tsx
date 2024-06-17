@@ -46,7 +46,10 @@ export function PersonCard({
 
         try {
             await updatePerson({ ...data, id: person.id } as TUpdatePersonParams);
+
             setSubmissionSuccess("A pessoa foi editada com sucesso.");
+
+            setIsEditing(false);
         } catch (error) {
             console.error(error);
 
@@ -57,7 +60,6 @@ export function PersonCard({
             }
         } finally {
             setIsSubmitting(false);
-            setIsEditing(false);
         }
     };
 
@@ -202,7 +204,7 @@ export function PersonCard({
                 A pessoa precisa ter no mínimo um contato.
             </span>
 
-            {person.contacts.map((contact) => (
+            {person.contacts?.map((contact) => (
                 <Fragment key={contact.id}>
                     <ContactCard
                         personId={person.id}
