@@ -4,9 +4,7 @@ import { TCreateContactParams, TUpdateContactParams } from "./contactService.typ
 
 export const createContact = async (params: TCreateContactParams): Promise<ContactEntity> => {
     try {
-        const { data } = await api.post<ContactEntity>("/contact", {
-            params,
-        });
+        const { data } = await api.post<ContactEntity>("/contact", params);
 
         return data;
     } catch (error) {

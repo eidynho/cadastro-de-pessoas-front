@@ -39,9 +39,7 @@ export const getPersons = async (params: TGetPersonsParams): Promise<PersonEntit
 
 export const createPerson = async (params: TCreatePersonParams): Promise<PersonEntity> => {
     try {
-        const { data } = await api.post<PersonEntity>("/person", {
-            params,
-        });
+        const { data } = await api.post<PersonEntity>("/person", params);
 
         return data;
     } catch (error) {
