@@ -54,25 +54,29 @@ export default function Home() {
 
     function addContactIntoList(personId: string, contact: ContactEntity) {
         setPeople((state) => {
-            const personContact = state.find((person) => person.id === personId);
-            if (!personContact) return state;
-
-            personContact.contacts.push(contact);
-
-            return state;
+            return state.map((person) => {
+                if (person.id === personId) {
+                    return {
+                        ...person,
+                        contacts: [...person.contacts, contact],
+                    };
+                }
+                return person;
+            });
         });
     }
 
     function removeFromContactList(personId: string, contactId: string) {
         setPeople((state) => {
-            const personContact = state.find((person) => person.id === personId);
-            if (!personContact) return state;
-
-            personContact.contacts = personContact.contacts.filter(
-                (contact) => contact.id === contactId,
-            );
-
-            return state;
+            return state.map((person) => {
+                if (person.id === personId) {
+                    return {
+                        ...person,
+                        contacts: person.contacts.filter((contact) => contact.id !== contactId),
+                    };
+                }
+                return person;
+            });
         });
     }
 

@@ -13,17 +13,10 @@ const inputClasses =
 interface ContactCardProps {
     personId: string;
     contact: ContactEntity;
-    addContactIntoList: (personId: string, contact: ContactEntity) => void;
     removeFromContactList: (personId: string, contactId: string) => void;
 }
 
-// addContactIntoList(personId, createdContact);
-export function ContactCard({
-    personId,
-    contact,
-    addContactIntoList,
-    removeFromContactList,
-}: ContactCardProps) {
+export function ContactCard({ personId, contact, removeFromContactList }: ContactCardProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);

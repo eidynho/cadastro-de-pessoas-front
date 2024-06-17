@@ -7,6 +7,7 @@ import { deletePerson, updatePerson } from "@/services/personService";
 import type { TUpdatePersonParams } from "@/services/personService.types";
 import { ContactCard } from "./ContactCard";
 import { ContactEntity } from "@/entities/contact";
+import { CreateContactForm } from "./CreateContactForm";
 
 const labelClasses = "block text-sm font-medium";
 const inputClasses =
@@ -197,7 +198,7 @@ export function PersonCard({
             <hr className="my-4" />
 
             <span className="mt-2 block font-medium">Lista de contatos</span>
-            <span className="text-muted-foreground mb-1 block text-sm">
+            <span className="mb-1 block text-sm text-muted-foreground">
                 A pessoa precisa ter no mínimo um contato.
             </span>
 
@@ -206,13 +207,14 @@ export function PersonCard({
                     <ContactCard
                         personId={person.id}
                         contact={contact}
-                        addContactIntoList={addContactIntoList}
                         removeFromContactList={removeFromContactList}
                     />
 
                     <hr className="my-2" />
                 </Fragment>
             ))}
+
+            <CreateContactForm personId={person.id} addContactIntoList={addContactIntoList} />
         </div>
     );
 }
